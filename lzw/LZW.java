@@ -96,19 +96,22 @@ public class LZW {
 		LZW alg = new LZW(); // instancio o algoritmo
 		List<Long> codigos = new ArrayList<Long>();
 		Dicionario dic = new Dicionario();		
-		dic.k = k;
+		byte[] bytesArray = new byte[(int) source.length()]; //array de bytes do tamanho do arquivo
+		//dic.k = k;
 		Testes conversor = new Testes();
 		FileOutputStream fos = new FileOutputStream(saida);
-        byte[] bFile = readBytesFromFile("C:\\Users\\amori\\Desktop\\compressedK33.txt");
+		FileInputStream fis = new FileInputStream(source);
+		fis.read(bytesArray,0,(int)source.length()); // insiro em bytesArray todos os bytes do arquivo
+
 		byte[] buf = new byte[k];
 		byte[] bufLong = new byte[8];
 		long temp;
 		StringBuffer result = new StringBuffer();
 		
 		// Trecho para pegar k Bytes por vez do array de bytes
-		for (int i = 0; i < bFile.length; i++) {
+		for (int i = 0; i < bytesArray.length; i=i+2) {
 			for(int j=0; j < k; j++)
-				buf[j] = bFile[i+j];
+				buf[j] = bytesArray[i+j];
 			bufLong = conversor.preencher(buf, k);
 			temp = conversor.bytesToLong(bufLong);
 			codigos.add(temp);
@@ -127,10 +130,10 @@ public class LZW {
 	public static void main(String args[]) throws IOException{
 		File source = new File("C:\\Users\\amori\\Desktop\\teste.txt");
 		File comprimido = new File("C:\\Users\\amori\\Desktop\\compressed.txt");
-		File descomprimido = new File("C:\\Users\\amori\\Desktop\\byteTeste.txt");
+		File descomprimido = new File("C:\\Users\\amori\\Desktop\\decompressed.txt");
 		int k=2;
 		
-		compress(source, comprimido, k);
+		//compress(source, comprimido, k);
 		decompress(comprimido,descomprimido,k);
 		
 		
