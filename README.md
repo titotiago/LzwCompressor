@@ -1,2 +1,2 @@
 # Lzw Compressor
-Compressor LZW 
+LZW Compressor using Java
